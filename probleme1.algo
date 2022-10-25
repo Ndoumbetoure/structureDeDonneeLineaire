@@ -1,0 +1,105 @@
+                                //solution 1 : with array
+
+ALGORITHM somme_elements_distincts
+
+VAR
+    jeu1 : ARRAY_OF INTEGER[10];
+    jeu2 : ARRAY_OF INTEGER[10];
+    somme,i,j : INTEGER := 0;
+    isdistint : BOOLEAN ;
+
+BEGIN
+
+    FOR i FROM 0 TO jeu1.length -1 STEP step  DO
+
+        FOR j FROM 0 TO jeu2.length -1 STEP step  DO
+            
+            IF (jeu1[i] = jeu2[j]) THEN
+               isdistint := FALSE;
+               break;
+            ELSE
+                isdistint := TRUE;
+            END_IF
+        END_FOR
+
+        IF (isdistint = TRUE) THEN
+            somme := somme + jeu1[i];
+        END_IF
+
+    END_FOR
+       
+    FOR j FROM 0 TO jeu2.length -1 STEP step  DO
+            
+        FOR i FROM 0 TO jeu1.length -1 STEP step  DO
+           
+            IF (jeu2[j] = jeu1[i]) THEN
+            
+                isdistint := FALSE;
+                break;
+            
+            ELSE
+                isdistint := TRUE;
+            END_IF
+        END_FOR
+
+        IF (isdistint = TRUE) THEN
+            somme := somme + jeu2[i];
+        END_IF
+
+    END_FOR
+
+    write("la somme des elements distincts:", somme);
+
+END
+
+
+                                //solution2 : with hash tables
+
+ALGORITHM somme_elements_distincts
+
+VAR
+        hash: HASH_TABLE<INTEGER,INTEGER>
+
+        jeu1: STRING[10];
+        jeu2: STRING[10];
+
+        somme,i,j,k,count :INTEGER:=0;
+        key: INTEGER;
+
+BEGIN
+
+        FOR i FROM 0 TO jeu1.length -1 STEP step  DO
+
+            IF (hash.lookup(jeu1[i])=TRUE) THEN
+                somme:= hash.get(jeu1[i]);
+                hash.insert(jeu1[i],somme+1);
+            ELSE
+                hash.insert(jeu1[i],1);
+            END_IF
+
+        END_FOR
+
+
+        FOR j FROM 0 TO jeu2.length -1 STEP step  DO
+
+            IF (hash.lookup(jeu2[j])=TRUE) THEN
+                somme:= hash.get(jeu2[j]);
+                hash.insert(jeu2[j],somme+1);
+            ELSE
+                hash.insert(jeu2[j],1);
+            END_IF
+
+        END_FOR
+
+         
+         FOR k FROM 0 TO hash.length -1 STEP 1 DO
+            
+            key:= get(hash[i]);
+            IF (hash.get(key=1)) THEN
+                count := key*2
+            END_IF
+         END_FOR
+
+        write("la somme des elements distincts:", count);
+
+END

@@ -1,0 +1,94 @@
+ALGORITHM somme_elements_chevauchent
+VAR
+    tab1 : ARRAY_OF INTEGER[10];
+    tab2 : ARRAY_OF INTEGER[10];
+    somme,i,j : INTEGER := 0;
+
+BEGIN
+    
+    FOR i FROM 0 TO tab1.length -1 STEP step  DO
+
+        FOR j FROM 0 TO tab2.length -1 STEP step  DO
+            
+            IF (tab1[i] = tab2[j]) THEN
+
+                somme := somme + tab1[i];
+
+            END_IF
+
+        END_FOR
+
+
+    END_FOR
+       
+    FOR j FROM 0 TO tab2.length -1 STEP step  DO
+            
+        FOR i FROM 0 TO tab2.length -1 STEP step  DO
+           
+            IF (tab2[j] = tab1[i]) THEN
+            {
+                somme:= somme + jeu2[i];
+            }
+            END_IF
+        END_FOR
+
+
+    END_FOR
+
+    write("la somme des elements distincts:", somme);
+
+END
+
+
+
+                                        //solution2 : with hash tables
+
+
+ALGORITHM somme_elements_chevauchent
+
+VAR
+        hash: HASH_TABLE<INTEGER,INTEGER>
+
+        tab1: STRING[10];
+        tab2: STRING[10];
+
+        somme,i,j,k,count :INTEGER:=0;
+        key: INTEGER;
+
+BEGIN
+
+        FOR i FROM 0 TO tab1.length -1 STEP step  DO
+
+            IF (hash.lookup(tab1[i])=TRUE) THEN
+                somme:= hash.get(tab1[i]);
+                hash.insert(tab1[i],somme+1);
+            ELSE
+                hash.insert(tab1[i],1);
+            END_IF
+
+        END_FOR
+
+
+        FOR j FROM 0 TO tab2.length -1 STEP step  DO
+
+            IF (hash.lookup(tab2[j])=TRUE) THEN
+                somme:= hash.get(tab2[j]);
+                hash.insert(tab2[j],somme+1);
+            ELSE
+                hash.insert(tab2[j],1);
+            END_IF
+
+        END_FOR
+
+         
+         FOR k FROM 0 TO hash.length -1 STEP 1 DO
+            
+            key:= get(hash[i]);
+            IF (hash.get(key<>1)) THEN
+                count := count + hash[i]
+            END_IF
+         END_FOR
+
+        write("la somme des elements distincts:", count);
+
+END
